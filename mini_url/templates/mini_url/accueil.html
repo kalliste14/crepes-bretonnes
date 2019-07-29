@@ -1,0 +1,20 @@
+<h1>Le raccourcisseur d'URLS spécial crêpes</h1>
+
+<a href="{% url 'creer_raccourci' %}">Raccourcir une URL</a><br><br>
+
+Liste des URLs raccourcies:<BR>
+{% for raccourci in raccourcis %}<BR>
+     * {{ raccourci.URLField }} via <a href="{% url 'renvoiurl' code=raccourci.code %}">
+     {{request.get_host}}/{{raccourci.code}}</a>
+     {% if raccourci.nb_acces >= 1 %}
+        ({{ raccourci.nb_acces }} accès)
+     {% endif %}
+    </div>
+    <a href="{% url 'modifier_raccourci' raccourci.code%}">M </a><br><br>
+    <a href="{% url 'supprimer_raccourci' raccourci.code%}">X</a><br><br>
+    
+{% empty %}
+    <p>Aucune URL raccourcie.</p>
+{% endfor %}
+
+{% include "mini_url/pagination.html" with liste=raccourcis view="accueil" %}

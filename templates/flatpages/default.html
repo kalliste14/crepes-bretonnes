@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ flatpage.title }}</title>
+</head>
+<body>
+   <h1>{{ flatpage.title }}</h1>
+   {{ flatpage.content }}
+
+{% load flatpages %}
+{% get_flatpages as flatpages %}
+<ul>
+    {% for page in flatpages %}
+        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+    {% endfor %}
+</ul>
+
+ {% load humanize %}
+ {{ 1|apnumber }}  
+{{ "2"|apnumber }}
+{{ 10|apnumber }} 
+ {{ "9000"|intcomma }} 
+</body>
+</html>

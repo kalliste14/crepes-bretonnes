@@ -1,0 +1,13 @@
+<div class="pagination">
+   {% if liste.has_previous %}
+       <a href="{% url view liste.previous_page_number %}">Précédente</a> -
+   {% endif %}
+
+   <span class="current">
+       Page {{ liste.number }} sur {{ liste.paginator.num_pages }}
+   </span>
+
+   {% if liste.has_next %}
+       - <a href="{% url view liste.next_page_number %}">Suivante</a>
+   {% endif %}
+</div>

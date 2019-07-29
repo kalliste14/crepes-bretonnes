@@ -1,0 +1,60 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Accueil du blog{% endblock %}
+
+ {% block content %}
+ 
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }} {{message.level}}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
+  {% if perms.blog.commenter_article %}
+	<p><a href="/commenter/">Commenter</a></p>
+{% endif %}
+  
+  <h1>Derniers articles</h1>
+
+	{% for article in articles %}
+		<h2 class="titre-article">{{ article.titre }}</h2>
+		
+
+		<p class="infos-article">Le {{ article.date|date:'SHORT_DATETIME_FORMAT' }}, 
+		{{ article.nb_commentaires_lies }} commentaire{{ article.nb_commentaires_lies|pluralize}}
+		</p>
+
+		<div class="contenu-article">
+			{{ article.contenu|safe|truncatewords_html:30 }}
+		</div>
+
+		<p><a href="{% url 'lire' article.pk %}">Lire la suite</a></p>
+
+		<hr />
+	{% endfor %}
+
+	<h3>Catégories disponibles</h3>
+    <ul>
+    {% for categorie in categories %}
+        <li><a href="{% url "blog_categorie" categorie.id %}">{{ categorie.nom }}</a></li>
+    {% endfor %}
+    </ul>
+
+	
+    {# Mise en forme de la pagination ici #}
+    {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">Précédente</a> —
+            {% endif %}
+            Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }} 
+            {% if page_obj.has_next %}
+                — <a href="?page={{ page_obj.next_page_number }}">Suivante</a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+{% endblock %}
